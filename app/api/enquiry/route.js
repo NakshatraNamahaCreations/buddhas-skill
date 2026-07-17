@@ -3,21 +3,51 @@
 //   1) internal notification to admissions
 //   2) branded auto-reply back to the enquirer
 //
-// Env vars required in .env.local:
-//   GMAIL_USER            — the Gmail account nodemailer authenticates as
+// Env vars required in .env.local (do NOT commit):
+//   GMAIL_USER            — Gmail address nodemailer authenticates as
 //   GMAIL_APP_PASSWORD    — 16-char App Password (NOT the regular password)
 //   ADMISSIONS_EMAIL      — where the internal notification lands
-//   BRAND_NAME (optional) — override the "From" display name
+//   BRAND_NAME (optional) — display name on outgoing emails
 
 import nodemailer from 'nodemailer';
 
 export const runtime = 'nodejs';
 
+// -----------------------------------------------------------------------
+// CORS — only these origins can POST from a browser. Never use '*' here,
+// this endpoint sends real email. Add / remove entries as your site URLs
+// change. Same-origin requests do not need to be in this list.
+// -----------------------------------------------------------------------
+const ALLOWED_ORIGINS = [
+  'https://YOUR-DOMAIN.com',   // <-- REPLACE with the production site origin
+  'http://localhost:3000',
+  'http://localhost:3002',
+  'https://buddha-skills.netlify.app/'
+];
+
+function corsHeaders(origin) {
+  if (!ALLOWED_ORIGINS.includes(origin)) return {};
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
+  };
+}
+
+// Preflight — browsers send OPTIONS before a POST with a JSON body.
+// Without a 200/204 here, the POST never fires cross-origin.
+export async function OPTIONS(request) {
+  const origin = request.headers.get('origin') || '';
+  return new Response(null, { status: 204, headers: corsHeaders(origin) });
+}
+
 const PHONE_RE = /^[+\d][\d\s\-()]{6,}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Strip control chars + collapse whitespace + cap length. Belt-and-braces
-// for header injection prevention and DoS via giant payloads.
+// Belt-and-braces sanitiser: strips control chars and angle brackets,
+// caps length to prevent header injection and giant-payload DoS.
 const clean = (s, max = 500) =>
   String(s ?? '')
     .replace(/[\r\n\t]+/g, ' ')
@@ -25,8 +55,6 @@ const clean = (s, max = 500) =>
     .trim()
     .slice(0, max);
 
-// escapeHtml is only needed for the HTML email bodies — the plain-text
-// versions and the SMTP headers are already sanitised by `clean`.
 const escapeHtml = (s) =>
   String(s)
     .replace(/&/g, '&amp;')
@@ -43,12 +71,12 @@ function validate(body) {
   const program = clean(body.program, 120);
   const message = clean(body.message, 1000);
 
-  if (!name)                                        errors.name = 'Name is required.';
-  if (!phone)                                       errors.phone = 'Phone is required.';
-  else if (!PHONE_RE.test(phone))                   errors.phone = 'Enter a valid phone number.';
-  if (!email)                                       errors.email = 'Email is required.';
-  else if (!EMAIL_RE.test(email))                   errors.email = 'Enter a valid email address.';
-  if (!program)                                     errors.program = 'Pick a program.';
+  if (!name)                        errors.name = 'Name is required.';
+  if (!phone)                       errors.phone = 'Phone is required.';
+  else if (!PHONE_RE.test(phone))   errors.phone = 'Enter a valid phone number.';
+  if (!email)                       errors.email = 'Email is required.';
+  else if (!EMAIL_RE.test(email))   errors.email = 'Enter a valid email address.';
+  if (!program)                     errors.program = 'Pick a program.';
 
   return { values: { name, phone, email, program, message }, errors };
 }
@@ -121,12 +149,13 @@ function autoReplyEmail({ name, program }) {
 }
 
 export async function POST(request) {
-  // Bail early if the deploy is missing credentials — better than a
-  // confusing SMTP error later.
+  const origin = request.headers.get('origin') || '';
+  const headers = corsHeaders(origin);
+
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD || !process.env.ADMISSIONS_EMAIL) {
     return Response.json(
       { ok: false, error: 'Email service not configured on the server.' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 
@@ -134,12 +163,12 @@ export async function POST(request) {
   try {
     body = await request.json();
   } catch {
-    return Response.json({ ok: false, error: 'Invalid request body.' }, { status: 400 });
+    return Response.json({ ok: false, error: 'Invalid request body.' }, { status: 400, headers });
   }
 
   const { values, errors } = validate(body);
   if (Object.keys(errors).length) {
-    return Response.json({ ok: false, errors }, { status: 400 });
+    return Response.json({ ok: false, errors }, { status: 400, headers });
   }
 
   const brand = process.env.BRAND_NAME || "Buddha's Skill Academy";
@@ -171,9 +200,9 @@ export async function POST(request) {
     console.error('[enquiry] send failed', err);
     return Response.json(
       { ok: false, error: 'Could not send email. Please try again or WhatsApp us.' },
-      { status: 502 }
+      { status: 502, headers }
     );
   }
 
-  return Response.json({ ok: true });
+  return Response.json({ ok: true }, { headers });
 }

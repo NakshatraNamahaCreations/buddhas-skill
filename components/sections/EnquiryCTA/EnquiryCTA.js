@@ -126,7 +126,7 @@ export default function EnquiryCTA() {
     setMessage('Sending your enquiry...');
 
     try {
-      const res = await fetch('/api/enquiry', {
+      const res = await fetch('https://buddhas-skill.vercel.app/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

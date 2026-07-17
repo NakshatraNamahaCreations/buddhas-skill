@@ -1,0 +1,23 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: var(--fs-eyebrow);
+  color: var(--snow-65);
+  line-height: 1;
+}
+
+.eyebrow[data-tone="ink"] { color: var(--ink-70); }
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 12px var(--crimson-glow);
+  flex-shrink: 0;
+}

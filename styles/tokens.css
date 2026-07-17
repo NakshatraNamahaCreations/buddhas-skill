@@ -1,0 +1,79 @@
+:root {
+  /* ------------------------------------------------------------
+     Brand core — logo red, softened for calm educational tone.
+     The logo red is #EA0203; we retain it as the deep variant
+     but use a slightly softened tone for primary/accent so the
+     page isn't shouting.
+     ------------------------------------------------------------ */
+  --crimson:        #D93A3A;
+  --crimson-deep:   #B32830;
+  --crimson-soft:   #D93A3A;
+  --crimson-glow:   rgba(217, 58, 58, 0.14);
+
+  /* ------------------------------------------------------------
+     Paper — primary light surfaces (warm cream, not clinical white).
+     ------------------------------------------------------------ */
+  --paper:          #FDFBF6;
+  --paper-soft:     #F6F1E6;
+  --paper-mute:     #EDE6D3;
+  --hairline-light: rgba(43, 39, 32, 0.10);
+
+  /* ------------------------------------------------------------
+     Obsidian tokens — retained as names for backwards compatibility
+     with existing sections, but redefined to warm sand-panel tones
+     so the entire site now reads light and calm. Sections that used
+     to be dark become warm muted panels; the rhythm of alternating
+     bands is preserved.
+     ------------------------------------------------------------ */
+  --obsidian:       #F6F1E6;
+  --obsidian-800:   #EFE7D2;
+  --obsidian-700:   #E7DDBF;
+  --obsidian-600:   #D9CBA7;
+  --hairline-dark:  rgba(43, 39, 32, 0.12);
+
+  /* ------------------------------------------------------------
+     Ink — warm dark charcoal (not pure black). Reads as body text.
+     ------------------------------------------------------------ */
+  --ink:            #2B2720;
+  --ink-70:         rgba(43, 39, 32, 0.72);
+  --ink-45:         rgba(43, 39, 32, 0.50);
+
+  /* ------------------------------------------------------------
+     Snow tokens — retained for backwards compatibility with sections
+     that formerly rendered on dark bg. Now resolve to warm ink so
+     text on the new light panels stays legible.
+     ------------------------------------------------------------ */
+  --snow:           #2B2720;
+  --snow-65:        rgba(43, 39, 32, 0.72);
+  --snow-40:        rgba(43, 39, 32, 0.48);
+
+  /* Motion */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:   0.4s;
+  --dur:        0.8s;
+  --dur-slow:   1.2s;
+
+  /* Type scale (fluid) */
+  --fs-hero:    clamp(3rem, 9vw, 8.5rem);
+  --fs-h1:      clamp(2.25rem, 5.5vw, 4.5rem);
+  --fs-h2:      clamp(1.75rem, 3.5vw, 3rem);
+  --fs-lead:    clamp(1.125rem, 1.6vw, 1.5rem);
+  --fs-body:    1rem;
+  --fs-eyebrow: 0.8125rem;
+
+  /* Layout */
+  --max-w:       1280px;
+  --wide-w:      1440px;
+  --gutter:      24px;
+  --gutter-sm:   16px;
+  --section-y:   clamp(6rem, 12vh, 11rem);
+
+  /* Radius */
+  --r-card:  20px;
+  --r-btn:   12px;
+  --r-pill:  999px;
+
+  /* Nav */
+  --nav-h: 90px;
+}

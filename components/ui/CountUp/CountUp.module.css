@@ -1,0 +1,5 @@
+.count {
+  font-variant-numeric: tabular-nums;   /* keep digit widths uniform under scrub */
+  display: inline-block;
+  font-feature-settings: "tnum" 1;
+}

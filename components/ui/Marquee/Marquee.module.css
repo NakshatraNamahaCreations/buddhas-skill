@@ -1,0 +1,38 @@
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Optional soft fade at both edges — set on the section if desired */
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap, 32px);
+  padding-right: var(--marquee-gap, 32px);
+  width: max-content;
+  animation: marqueeScroll var(--marquee-duration, 45s) linear infinite;
+  will-change: transform;
+}
+
+.reverse .track { animation-direction: reverse; }
+
+/* Pause when the row is hovered or a child receives focus */
+.marquee:hover .track,
+.marquee:focus-within .track {
+  animation-play-state: paused;
+}
+
+.item {
+  flex: 0 0 auto;
+}
+
+/* Half of the duplicated width — one full copy — so the seam is invisible */
+@keyframes marqueeScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none !important; }
+}

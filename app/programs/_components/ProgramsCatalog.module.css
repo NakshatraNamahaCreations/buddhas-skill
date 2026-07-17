@@ -1,0 +1,228 @@
+/* ============================================================
+   Programs catalog — five clickable summary cards that anchor
+   to the full detail spread further down the page.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper-soft);
+  color: var(--ink);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: flex-end;
+}
+.headerLead { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { display: inline-flex; align-self: flex-start; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 20ch;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.lede {
+  color: var(--ink-70);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 44ch;
+  margin: 0;
+  padding-left: clamp(0px, 2vw, 32px);
+  border-left: 2px solid var(--hairline-light);
+}
+
+/* ---------- Grid ---------- */
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(16px, 1.6vw, 22px);
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(20px, 1.8vw, 26px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  color: var(--ink);
+  min-height: 300px;
+  box-shadow:
+    0 20px 36px -24px rgba(43, 39, 32, 0.20),
+    0 4px 12px -6px rgba(43, 39, 32, 0.06);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 58, 58, 0.32);
+  box-shadow:
+    0 34px 56px -24px rgba(43, 39, 32, 0.30),
+    0 10px 24px -8px rgba(43, 39, 32, 0.12);
+}
+.card:hover .arrow {
+  background: var(--crimson);
+  color: #fff;
+  border-color: transparent;
+  transform: translate(2px, -2px);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.iconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px -10px rgba(217, 58, 58, 0.45);
+}
+.iconWrap svg { width: 20px; height: 20px; stroke-width: 1.9; }
+
+.index {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+}
+.indexOf { color: var(--ink-45); margin-left: 4px; }
+
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 10px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  background: rgba(217, 58, 58, 0.10);
+  border: 1px solid rgba(217, 58, 58, 0.22);
+  border-radius: 999px;
+}
+
+.cardTitle {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.specs {
+  list-style: none;
+  padding: 0;
+  margin: auto 0 0;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.spec {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.specValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--crimson);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.specLabel {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.62rem;
+  color: var(--ink-70);
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--hairline-light);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  color: var(--ink-70);
+}
+.arrow {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--crimson);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.arrow svg { width: 14px; height: 14px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid > li:nth-child(4),
+  .grid > li:nth-child(5) { grid-column: span 1; }
+}
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+  .lede { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 640px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 460px) {
+  .grid { grid-template-columns: 1fr; }
+  .card { min-height: 240px; }
+}

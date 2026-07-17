@@ -1,0 +1,198 @@
+/* ============================================================
+   Team — coverflow / curved perspective row
+   Centered heading + CTA on top, then a wide row of portrait
+   cards each tilted along its Y axis so the ends recede.
+   Edge cards clip off-screen (section has overflow: hidden).
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(72px, 12vw, 140px) 0 clamp(56px, 8vw, 96px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---------- Header (centered) ---------- */
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+.header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto clamp(48px, 8vw, 88px);
+}
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+.title em {
+  font-style: normal;
+  color: var(--crimson);
+}
+.lede {
+  color: var(--ink-70);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
+  max-width: 54ch;
+  margin: 0 auto 28px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px 14px 26px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 999px;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 12px 24px -12px rgba(43, 39, 32, 0.35);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.cta svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.cta:hover {
+  background: var(--crimson);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -12px rgba(217, 58, 58, 0.45);
+}
+.cta:hover svg { transform: translateX(3px); }
+
+/* ============================================================
+   Coverflow row
+   ============================================================ */
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px);
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  padding: 20px clamp(20px, 4vw, 56px);
+  transform-style: preserve-3d;
+}
+
+/* Individual portrait card — --tilt is set inline based on index */
+.card {
+  flex: 0 0 auto;
+  width: clamp(160px, 15vw, 220px);
+  transform: rotateY(var(--tilt, 0deg));
+  transform-origin: center center;
+  transition:
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+  will-change: transform;
+}
+
+.card:hover {
+  /* Straighten and lift the hovered card so users can inspect it clearly */
+  transform: rotateY(0deg) translateY(-6px) scale(1.04);
+  z-index: 2;
+}
+
+/* ---------- Photo ---------- */
+.photoWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--paper-mute);
+  box-shadow:
+    0 30px 50px -30px rgba(43, 39, 32, 0.35),
+    0 8px 20px -8px rgba(43, 39, 32, 0.14);
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s var(--ease-out);
+}
+.card:hover .photo { transform: scale(1.05); }
+
+/* ---------- Caption ---------- */
+.caption {
+  padding: 16px 4px 0;
+  text-align: center;
+}
+.name {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.role {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--crimson);
+  margin-top: 6px;
+  line-height: 1.2;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 900px) {
+  /* On tablet: drop the perspective, allow horizontal scroll */
+  .row {
+    justify-content: flex-start;
+    overflow-x: auto;
+    perspective: none;
+    padding: 20px clamp(20px, 4vw, 40px);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .row::-webkit-scrollbar { display: none; }
+  .card {
+    width: clamp(180px, 40vw, 220px);
+    transform: none;
+    scroll-snap-align: center;
+  }
+  .card:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+@media (max-width: 520px) {
+  .header { text-align: left; margin-left: 0; }
+  .lede { margin-left: 0; margin-right: 0; }
+  .card { width: 200px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .card:hover { transform: rotateY(var(--tilt, 0deg)); }
+  .photo { transition: none; }
+  .cta { transition: none; }
+  .cta:hover svg { transform: none; }
+}

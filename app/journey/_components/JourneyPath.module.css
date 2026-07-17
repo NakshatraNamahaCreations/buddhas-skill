@@ -1,0 +1,323 @@
+/* ============================================================
+   Journey path — 5-step horizontal path with connectors.
+   Cards flow left → right on desktop, connected by a central
+   rail with dots on each card and small arrow chevrons between.
+   Last card is highlighted in crimson to represent the goal.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper-soft);
+  color: var(--ink);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bgDecor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 40% at 0% 0%, rgba(217, 58, 58, 0.08), transparent 60%),
+    radial-gradient(40% 30% at 100% 100%, rgba(217, 58, 58, 0.05), transparent 60%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* Header */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: flex-end;
+}
+.headerLead { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { display: inline-flex; align-self: flex-start; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 22ch;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.lede {
+  color: var(--ink-70);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 44ch;
+  margin: 0;
+  padding-left: clamp(0px, 2vw, 32px);
+  border-left: 2px solid var(--hairline-light);
+}
+
+/* Scroller for narrow screens */
+.scroller {
+  position: relative;
+  margin-inline: calc(clamp(20px, 4vw, 56px) * -1);
+  padding-inline: clamp(20px, 4vw, 56px);
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroller::-webkit-scrollbar { display: none; }
+
+/* Grid: 5 step columns with connectors between */
+.grid {
+  list-style: none;
+  padding: clamp(20px, 4vw, 40px) 0;
+  margin: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
+  gap: 0;
+  align-items: stretch;
+}
+
+/* Rail across all cards behind the connectors */
+.rail {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    rgba(217, 58, 58, 0) 0%,
+    rgba(217, 58, 58, 0.35) 10%,
+    rgba(217, 58, 58, 0.35) 90%,
+    rgba(217, 58, 58, 0) 100%
+  );
+  border-radius: 999px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  padding: 0 clamp(8px, 1vw, 14px);
+  z-index: 1;
+}
+
+/* Card */
+.card {
+  position: relative;
+  width: 100%;
+  padding: clamp(20px, 1.8vw, 26px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  box-shadow:
+    0 20px 36px -24px rgba(43, 39, 32, 0.22),
+    0 4px 12px -6px rgba(43, 39, 32, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 58, 58, 0.30);
+  box-shadow:
+    0 30px 48px -24px rgba(43, 39, 32, 0.28),
+    0 10px 20px -8px rgba(43, 39, 32, 0.12);
+}
+
+.cardActive {
+  background:
+    radial-gradient(120% 100% at 100% 0%, rgba(255, 255, 255, 0.12), transparent 55%),
+    linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow:
+    0 30px 60px -24px rgba(217, 58, 58, 0.55),
+    0 8px 20px -8px rgba(217, 58, 58, 0.30);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px -10px rgba(217, 58, 58, 0.45);
+  flex-shrink: 0;
+}
+.icon svg { width: 20px; height: 20px; stroke-width: 1.9; }
+.cardActive .icon {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: none;
+}
+
+.stepPill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(253, 251, 246, 0.7);
+  border: 1px solid var(--hairline-light);
+  border-radius: 999px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+}
+.stepPillLabel {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  font-weight: 700;
+}
+.stepPillNum {
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  font-weight: 800;
+}
+.cardActive .stepPill {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.cardActive .stepPillLabel { color: rgba(255, 255, 255, 0.75); }
+.cardActive .stepPillNum { color: #fff; }
+
+.cardTitle {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.cardActive .cardTitle { color: #fff; }
+
+.cardBody {
+  color: var(--ink-70);
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+.cardActive .cardBody { color: rgba(255, 255, 255, 0.9); }
+
+/* Dot at bottom-right of each card, "on the rail" */
+.dot {
+  position: absolute;
+  bottom: -8px;
+  right: 22px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  border: 3px solid var(--paper-soft);
+  box-shadow: 0 0 0 2px rgba(217, 58, 58, 0.30);
+}
+.cardActive .dot {
+  background: #fff;
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+/* Chevron between cards */
+.connector {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  color: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px -10px rgba(43, 39, 32, 0.25);
+}
+.connector svg { width: 14px; height: 14px; stroke-width: 2.4; }
+
+/* ---------- Responsive ---------- */
+
+/* Force horizontal scroll on narrow screens (5 cards min-width 200px each) */
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
+  }
+}
+
+/* Mobile — stack vertically with a left rail */
+@media (max-width: 720px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+  .lede { border-left: 0; padding-left: 0; }
+
+  .scroller { margin-inline: 0; padding-inline: 0; overflow: visible; }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 4vw, 28px);
+    padding: 0 0 0 34px;
+  }
+  .rail {
+    left: 12px;
+    right: auto;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    height: auto;
+    transform: none;
+    background: linear-gradient(
+      180deg,
+      rgba(217, 58, 58, 0) 0%,
+      rgba(217, 58, 58, 0.35) 8%,
+      rgba(217, 58, 58, 0.35) 92%,
+      rgba(217, 58, 58, 0) 100%
+    );
+  }
+  .item { padding: 0; }
+  .connector { display: none; }
+  .dot {
+    left: -30px;
+    right: auto;
+    top: 24px;
+    bottom: auto;
+    border-color: var(--paper-soft);
+  }
+  .cardActive .dot { border-color: var(--paper-soft); }
+}

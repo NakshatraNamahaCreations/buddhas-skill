@@ -1,0 +1,11 @@
+.split { display: inline; }
+
+.word {
+  display: inline-block;
+  will-change: opacity;
+}
+
+.space {
+  display: inline-block;
+  white-space: pre;
+}

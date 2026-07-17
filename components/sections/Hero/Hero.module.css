@@ -1,0 +1,278 @@
+/* ============================================================
+   Hero — multi-slide banner (crossfade)
+   Each slide is a full-bleed layer (photo + overlay + copy).
+   Only the active slide is visible; siblings crossfade out.
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+}
+
+/* ---------- Slide layer ---------- */
+.slide {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.9s var(--ease-out),
+    visibility 0.9s var(--ease-out);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(120px, 14vh, 160px) clamp(20px, 4vw, 56px)
+           clamp(120px, 14vh, 160px);
+}
+
+.slideActive {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* ---------- Background image ---------- */
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  z-index: 0;
+  pointer-events: none;
+  /* Subtle Ken-Burns for the active slide */
+  transform: scale(1.02);
+  transition: transform 8s linear;
+}
+.slideActive .bg {
+  transform: scale(1.08);
+}
+
+/* ---------- Overlay ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(22, 20, 16, 0.82) 0%,
+      rgba(22, 20, 16, 0.68) 50%,
+      rgba(22, 20, 16, 0.58) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(22, 20, 16, 0.15) 0%,
+      rgba(22, 20, 16, 0.35) 100%
+    );
+  pointer-events: none;
+}
+
+/* ---------- Copy container ---------- */
+.grid {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 640px) 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Individual copy items — hidden by default, animate in when parent slide is active */
+.copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vh, 22px);
+}
+.copyItem {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.slideActive .copyItem {
+  animation: heroCopyIn 0.9s var(--ease-out) forwards;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes heroCopyIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Copy styles (unchanged) ---------- */
+.learnBadge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 999px;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.8vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.titleAccent { color: var(--crimson-soft); }
+.titleInk    { color: #fff; }
+
+.sub {
+  margin: 0;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 52ch;
+}
+
+.coursePill { align-self: flex-start; }
+.coursePill a {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 30px;
+  background: var(--crimson);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 24px -10px rgba(217, 58, 58, 0.55);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.coursePill a:hover {
+  background: var(--crimson-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -10px rgba(217, 58, 58, 0.60);
+}
+
+/* ============================================================
+   Slider controls — prev/next arrows and dot indicators
+   ============================================================ */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.arrow svg { width: 22px; height: 22px; stroke-width: 2; }
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.20);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+.arrowPrev { left: clamp(12px, 2vw, 28px); }
+.arrowNext { right: clamp(12px, 2vw, 28px); }
+.arrowPrev:hover { transform: translateY(-50%) translateX(-2px); }
+.arrowNext:hover { transform: translateY(-50%) translateX(2px); }
+
+.dots {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(20px, 4vh, 36px);
+  z-index: 5;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    width var(--dur-fast) var(--ease-out);
+}
+.dot:hover { background: rgba(255, 255, 255, 0.75); }
+.dotActive {
+  background: var(--crimson);
+  width: 28px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 900px) {
+  .overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(22, 20, 16, 0.68) 0%,
+        rgba(22, 20, 16, 0.82) 100%
+      );
+  }
+  .arrow { display: none; }
+  .dots { bottom: 20px; }
+}
+
+@media (max-width: 520px) {
+  .coursePill a { padding: 12px 24px; font-size: 0.95rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: opacity 0.2s; }
+  .slideActive .bg { transform: scale(1); transition: none; }
+  .slideActive .copyItem {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

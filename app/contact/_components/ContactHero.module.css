@@ -1,0 +1,302 @@
+/* ============================================================
+   Contact page hero — centered header + 4-up channel grid.
+   Below the header, each channel (call, WhatsApp, email,
+   visit) is a linked card with an icon tile, label, live
+   value, and hint. A soft scroll cue points to EnquiryCTA.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + clamp(56px, 8vh, 96px)) clamp(20px, 4vw, 56px)
+           clamp(56px, 8vh, 96px);
+}
+
+/* ---------- Decorative background ---------- */
+.bgDecor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.blobA {
+  position: absolute;
+  top: -200px;
+  right: -160px;
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(closest-side, rgba(217, 58, 58, 0.14), transparent 70%);
+  filter: blur(30px);
+}
+.blobB {
+  position: absolute;
+  bottom: -220px;
+  left: -180px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(closest-side, rgba(217, 58, 58, 0.07), transparent 70%);
+  filter: blur(30px);
+}
+
+/* ---------- Layout ---------- */
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.header {
+  max-width: 780px;
+  text-align: center;
+}
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.title em {
+  font-style: normal;
+  color: var(--crimson);
+  position: relative;
+}
+.title em::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.06em;
+  height: 0.14em;
+  background: rgba(217, 58, 58, 0.20);
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.lede {
+  color: var(--ink-70);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Channels grid — 4 up desktop, 2 up tablet, 1 up mobile
+   ============================================================ */
+.channels {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  align-items: stretch;
+}
+
+.channel { display: flex; align-items: stretch; }
+
+.channelLink {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: clamp(22px, 2.4vw, 28px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow:
+    0 22px 40px -28px rgba(43, 39, 32, 0.20),
+    0 4px 12px -6px rgba(43, 39, 32, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.channelLink::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  transform-origin: left;
+  transform: scaleX(0.28);
+  transition: transform 0.5s var(--ease-out);
+}
+.channelLink:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 58, 58, 0.28);
+  box-shadow:
+    0 32px 56px -30px rgba(43, 39, 32, 0.28),
+    0 8px 20px -8px rgba(43, 39, 32, 0.10);
+}
+.channelLink:hover::before { transform: scaleX(1); }
+.channelLink:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(217, 58, 58, 0.25),
+    0 22px 40px -28px rgba(43, 39, 32, 0.20);
+}
+
+.channelIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 24px -12px rgba(217, 58, 58, 0.55),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12),
+    inset 0 2px 0 rgba(255, 255, 255, 0.20);
+}
+.channelIcon svg { width: 26px; height: 26px; stroke-width: 1.7; }
+
+.channelBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.channelLabel {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--crimson);
+}
+.channelValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  word-break: break-word;
+}
+/* Address is long-form body copy — de-emphasise so the visit card
+   stops dominating and stays roughly the same height as the others. */
+.channelLink[data-channel="visit"] .channelValue {
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.channelHint {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink-70);
+  margin-top: auto;
+  padding-top: 12px;
+}
+/* On the visit card the hint would compete with the paragraph
+   address; keep it flush without the extra top padding. */
+.channelLink[data-channel="visit"] .channelHint {
+  padding-top: 6px;
+}
+
+.channelArrow {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(217, 58, 58, 0.08);
+  color: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.channelArrow svg { width: 16px; height: 16px; stroke-width: 2.2; }
+.channelLink:hover .channelArrow {
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  transform: translate(2px, -2px);
+}
+
+/* ---------- Scroll cue ---------- */
+.scrollCue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  color: var(--ink-70);
+  padding: 12px 20px;
+  border: 1px solid var(--hairline-light);
+  border-radius: 999px;
+  background: #fff;
+  text-decoration: none;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.scrollCueDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 0 4px rgba(217, 58, 58, 0.15);
+}
+.scrollCue:hover {
+  color: var(--crimson);
+  border-color: rgba(217, 58, 58, 0.35);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1024px) {
+  .channels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .hero { min-height: auto; padding-top: calc(var(--nav-h) + 40px); }
+  .channels { grid-template-columns: 1fr; }
+  .header { text-align: left; }
+  .lede { margin: 0; }
+  .title { font-size: clamp(2.1rem, 8vw, 3rem); }
+  .channelArrow { top: 16px; right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channelLink,
+  .channelLink::before,
+  .channelArrow { transition: none; }
+}

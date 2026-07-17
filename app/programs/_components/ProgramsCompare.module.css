@@ -1,0 +1,226 @@
+/* ============================================================
+   Programs compare — a premium side-by-side grid table.
+   Uses CSS grid (not <table>) so we can style the hover column
+   cleanly and keep semantics accessible via role attributes.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 40% at 100% 0%, rgba(217, 58, 58, 0.08), transparent 60%),
+    radial-gradient(40% 30% at 0% 100%, rgba(217, 58, 58, 0.05), transparent 60%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: flex-end;
+}
+.headerLead { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { display: inline-flex; align-self: flex-start; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 20ch;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.lede {
+  color: var(--ink-70);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 44ch;
+  margin: 0;
+  padding-left: clamp(0px, 2vw, 32px);
+  border-left: 2px solid var(--hairline-light);
+}
+
+/* ---------- Table ---------- */
+.tableWrap {
+  position: relative;
+  padding: clamp(12px, 1.4vw, 20px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  box-shadow:
+    0 30px 60px -30px rgba(43, 39, 32, 0.22),
+    0 8px 22px -10px rgba(43, 39, 32, 0.08);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) repeat(var(--cols, 5), minmax(160px, 1fr));
+  min-width: 900px;
+}
+
+.row,
+.headRow {
+  display: contents;
+}
+.row + .row .cell {
+  border-top: 1px solid var(--hairline-light);
+}
+
+.cell {
+  padding: clamp(14px, 1.4vw, 20px) clamp(12px, 1vw, 18px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  position: relative;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+/* Row label column */
+.rowLabel {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+  border-right: 1px solid var(--hairline-light);
+}
+.rowLabelText {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Head row cells */
+.headCell {
+  background: var(--paper-soft);
+  border-bottom: 2px solid var(--hairline-light);
+}
+.headCell.rowLabel {
+  background: var(--paper-soft);
+}
+
+.headProgram {
+  color: var(--ink);
+  align-items: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.headProgram:hover {
+  background: rgba(217, 58, 58, 0.06);
+  color: var(--crimson);
+}
+.progIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 16px -8px rgba(217, 58, 58, 0.45);
+}
+.progIcon svg { width: 16px; height: 16px; stroke-width: 2; }
+.progIndex {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-70);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.progName {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+/* Data cells */
+.dataCell { color: var(--ink); }
+.cellValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+/* Column hover highlight */
+.colHover {
+  background: rgba(217, 58, 58, 0.05);
+}
+.dataCell.colHover .cellValue { color: var(--crimson); }
+.headProgram.colHover { background: rgba(217, 58, 58, 0.08); color: var(--crimson); }
+
+.footNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  align-self: flex-start;
+  background: rgba(253, 251, 246, 0.7);
+  border: 1px solid var(--hairline-light);
+  border-radius: 999px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  color: var(--ink-70);
+}
+.footNote svg {
+  width: 14px;
+  height: 14px;
+  color: var(--crimson);
+  stroke-width: 2.5;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+  .lede { border-left: 0; padding-left: 0; }
+}
+
+@media (max-width: 640px) {
+  .table { min-width: 720px; }
+  .rowLabelText { font-size: 0.62rem; letter-spacing: 0.16em; }
+  .cellValue { font-size: 0.85rem; }
+  .progName { font-size: 0.8rem; }
+}

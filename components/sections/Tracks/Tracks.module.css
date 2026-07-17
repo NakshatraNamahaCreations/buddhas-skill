@@ -1,0 +1,336 @@
+.section {
+  position: relative;
+  background: #fdfbf6;
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---------- Header ---------- */
+.header {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--section-y) clamp(20px, 4vw, 56px) clamp(2rem, 4vw, 3rem);
+}
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--snow);
+  margin: 0 0 16px;
+  max-width: 22ch;
+}
+.title em {
+  font-style: normal;
+  color: var(--crimson-soft);
+}
+.lede {
+  max-width: 60ch;
+  color: var(--snow-65);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+/* ---------- Stage (pinned horizontal on desktop) ---------- */
+.stage {
+  position: relative;
+  height: 100vh;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: clamp(24px, 3vw, 40px);
+  /* Edge padding = (viewport - card width) / 2 so cards 1 and 5 can reach the
+     viewport center at scroll progress 0 and 1. Without this, the first and
+     last cards can never win the "closest-to-center" active-card check. */
+  padding: 0 calc((100vw - min(520px, 82vw)) / 2);
+  will-change: transform;
+  position: relative;
+  top: 20px
+}
+
+/* ---------- Card ---------- */
+.card {
+  flex: 0 0 auto;
+  width: min(520px, 82vw);
+  height: min(720px, 84vh);
+  background: var(--paper);
+  border: 1px solid var(--hairline-light);
+  border-radius: var(--r-card);
+  padding: clamp(22px, 2.2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  /* Baseline state — GSAP overrides active card on scrub */
+  transform: scale(0.94);
+  opacity: 0.55;
+  transition:
+    transform 0.55s var(--ease-out),
+    opacity   0.55s var(--ease-out),
+    border-color 0.55s var(--ease-out),
+    box-shadow 0.55s var(--ease-out);
+  will-change: transform, opacity;
+}
+
+.cardActive {
+  transform: scale(1);
+  opacity: 1;
+  border-color: var(--hairline-light);
+  box-shadow: 0 30px 60px -30px rgba(43, 39, 32, 0.22), 0 8px 24px -8px rgba(43, 39, 32, 0.10);
+}
+
+/* ---------- Card media (subject photo) ---------- */
+.media {
+  position: relative;
+  margin: -4px -4px 20px;
+  border-radius: calc(var(--r-card) - 6px);
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  background: var(--paper-mute);
+  flex: 0 0 auto;
+  isolation: isolate;
+}
+.mediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- Badge over the image (top-left) ---- */
+.mediaBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(253, 251, 246, 0.94);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-radius: 999px;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--crimson);
+  box-shadow: 0 4px 12px -4px rgba(43, 39, 32, 0.20);
+}
+.mediaBadgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(217, 58, 58, 0.18);
+}
+
+/* ---- Stats strip overlaid at bottom of image ---- */
+.mediaStats {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 10px;
+  background: rgba(253, 251, 246, 0.92);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border-radius: 12px;
+  box-shadow: 0 12px 24px -12px rgba(43, 39, 32, 0.30);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  padding: 4px 2px;
+}
+.stat + .stat {
+  border-left: 1px solid rgba(43, 39, 32, 0.10);
+}
+.statValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--crimson);
+  line-height: 1.1;
+}
+.statLabel {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  line-height: 1.15;
+}
+
+.index {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.75rem;
+  color: var(--crimson);
+  margin-bottom: 12px;
+}
+.index::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--crimson);
+}
+
+.cardTitle {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--snow);
+  margin: 0 0 8px;
+}
+
+.promise {
+  color: var(--snow-65);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  max-width: 44ch;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  color: var(--snow-40);
+  margin: 0 0 8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+
+.chip {
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: var(--paper-soft);
+  border: 1px solid var(--hairline-light);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 500;
+  /* Chip stagger reveal handled by GSAP when card becomes active */
+  will-change: transform, opacity;
+}
+
+.careers {
+  color: var(--snow-65);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: auto 0 14px;
+}
+.careers strong {
+  color: var(--snow);
+  font-weight: 600;
+}
+
+.enquire { align-self: flex-start; }
+
+/* ---------- Progress rail (desktop) ---------- */
+.railWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(24px, 4vh, 48px);
+  padding: 0 clamp(20px, 6vw, 96px);
+  pointer-events: none;
+}
+.railTrack {
+  position: relative;
+  height: 2px;
+  background: var(--hairline-dark);
+  overflow: hidden;
+  border-radius: 999px;
+}
+.rail {
+  position: absolute;
+  inset: 0;
+  background: var(--crimson);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 12px var(--crimson-glow);
+  will-change: transform;
+}
+
+.counter {
+  position: absolute;
+  right: clamp(20px, 6vw, 96px);
+  bottom: calc(clamp(24px, 4vh, 48px) + 18px);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  color: var(--snow-40);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+}
+.counter .active { color: var(--crimson); }
+
+/* ---------- Mobile fallback: vertical stack, no pin ---------- */
+@media (max-width: 1023px) {
+  .stage {
+    height: auto;
+    min-height: 0;
+    padding: 40px 0 80px;
+    overflow: visible;
+  }
+  .track {
+    flex-direction: column;
+    align-items: stretch;
+    /* Reset the desktop centering padding — mobile stacks vertically */
+    padding: 0 clamp(20px, 4vw, 40px);
+    gap: 20px;
+  }
+  .card {
+    width: 100%;
+    height: auto;
+    transform: none;
+    opacity: 1;
+    transition: none;
+    padding: 28px;
+  }
+  .cardActive {
+    box-shadow: none;
+    border-color: var(--hairline-dark);
+  }
+  .cardActive::before { opacity: 0; }
+  .railWrap, .counter { display: none; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none;
+  }
+  .rail { transform: scaleX(1) !important; }
+}

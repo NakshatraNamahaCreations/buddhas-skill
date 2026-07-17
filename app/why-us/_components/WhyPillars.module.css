@@ -1,0 +1,254 @@
+/* ============================================================
+   Why-us pillars — bento grid (4 cols).
+   The first pillar spans 2 cols and uses the crimson-filled
+   treatment so it reads as the featured commitment; the other
+   six fill the remaining cells naturally.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bgDecor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(50% 40% at 100% 0%, rgba(217, 58, 58, 0.08), transparent 60%),
+    radial-gradient(40% 30% at 0% 100%, rgba(217, 58, 58, 0.05), transparent 60%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: flex-end;
+}
+.headerLead { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { display: inline-flex; align-self: flex-start; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 22ch;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.lede {
+  color: var(--ink-70);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 44ch;
+  margin: 0;
+  padding-left: clamp(0px, 2vw, 32px);
+  border-left: 2px solid var(--hairline-light);
+}
+
+/* ---------- Grid ---------- */
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 1.6vw, 22px);
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  padding: clamp(22px, 1.8vw, 28px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  box-shadow:
+    0 20px 36px -24px rgba(43, 39, 32, 0.20),
+    0 4px 12px -6px rgba(43, 39, 32, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  min-height: 260px;
+  will-change: transform;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 58, 58, 0.32);
+  box-shadow:
+    0 34px 56px -24px rgba(43, 39, 32, 0.30),
+    0 10px 24px -8px rgba(43, 39, 32, 0.12);
+}
+
+/* Featured pillar (index 0) — spans two columns, crimson-filled */
+.cardFeatured {
+  grid-column: span 2;
+  min-height: 300px;
+  background:
+    radial-gradient(120% 100% at 100% 0%, rgba(255, 255, 255, 0.14), transparent 55%),
+    linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  border-color: transparent;
+  box-shadow:
+    0 30px 60px -24px rgba(217, 58, 58, 0.55),
+    0 8px 20px -8px rgba(217, 58, 58, 0.30);
+}
+.cardFeatured:hover { border-color: transparent; }
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 12px 22px -10px rgba(217, 58, 58, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+.icon svg { width: 20px; height: 20px; stroke-width: 1.9; }
+.cardFeatured .icon {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: none;
+}
+
+.step {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  padding: 5px 10px;
+  border: 1px solid var(--hairline-light);
+  border-radius: 999px;
+  background: rgba(253, 251, 246, 0.7);
+}
+.stepOf { color: var(--ink-45); }
+.cardFeatured .step {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.cardFeatured .stepOf { color: rgba(255, 255, 255, 0.65); }
+
+.cardBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.cardTitle {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.4vw, 1.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0;
+}
+.cardFeatured .cardTitle {
+  color: #fff;
+  font-size: clamp(1.4rem, 1.9vw, 1.75rem);
+}
+.cardCopy {
+  color: var(--ink-70);
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+.cardFeatured .cardCopy {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  max-width: 46ch;
+}
+
+.cardFoot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rule {
+  height: 1px;
+  background: var(--hairline-light);
+  border-radius: 999px;
+}
+.cardFeatured .rule { background: rgba(255, 255, 255, 0.25); }
+
+.footTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  color: var(--ink-70);
+}
+.footTag svg {
+  width: 14px;
+  height: 14px;
+  color: var(--crimson);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.cardFeatured .footTag { color: rgba(255, 255, 255, 0.85); }
+.cardFeatured .footTag svg { color: #fff; }
+.card:hover .footTag svg { transform: translate(3px, -3px); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1023px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cardFeatured { grid-column: span 2; }
+}
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+  .lede { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+  .cardFeatured { grid-column: span 1; min-height: 240px; }
+  .card { min-height: 220px; }
+}

@@ -1,0 +1,140 @@
+/* ============================================================
+   Journey promise — crimson closing band with pull-quote and
+   primary CTA that echoes the pattern used on Why-us.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background:
+    radial-gradient(120% 100% at 100% 0%, rgba(255, 255, 255, 0.10), transparent 55%),
+    linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  padding: clamp(72px, 12vw, 140px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glowA {
+  position: absolute;
+  top: -180px;
+  right: -140px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.16), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 0;
+}
+.glowB {
+  position: absolute;
+  bottom: -180px;
+  left: -140px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.20), transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+  display: inline-flex;
+}
+
+.mark {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-size: clamp(6rem, 14vw, 12rem);
+  line-height: 0.5;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0.15em 0 -0.3em;
+  user-select: none;
+}
+
+.quote {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.85rem, 4.4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0;
+  max-width: 24ch;
+}
+.quote em {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
+}
+.quote em::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0.05em;
+  height: 0.12em;
+  background: rgba(255, 255, 255, 0.32);
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.rule {
+  width: 60px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  margin: clamp(0.75rem, 1.5vw, 1.25rem) 0;
+}
+
+.attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.name {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #fff;
+  max-width: 44ch;
+}
+.tag {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.actions { margin-top: clamp(1rem, 2vw, 1.5rem); }
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  background: #fff;
+  color: var(--crimson);
+  border-radius: 999px;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 16px 28px -12px rgba(0, 0, 0, 0.35);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.cta svg { width: 16px; height: 16px; stroke-width: 2; transition: transform var(--dur-fast) var(--ease-out); }
+.cta:hover { transform: translateY(-2px); box-shadow: 0 22px 36px -12px rgba(0, 0, 0, 0.4); }
+.cta:hover svg { transform: translateX(3px); }

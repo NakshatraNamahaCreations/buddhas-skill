@@ -1,0 +1,261 @@
+/* ============================================================
+   About Us — bento grid
+   Mixed-size tiles arranged in a puzzle:
+     Row 1-2: [statement 2×2]  [photo 1×2]
+     Row 3:   [since 1×1] [promise 2×1]
+     Row 4:   [value] [value] [value]
+   ============================================================ */
+.section {
+  position: relative;
+  background:
+    radial-gradient(80% 40% at 100% 0%, rgba(217, 58, 58, 0.05), transparent 60%),
+    var(--paper-soft);
+  color: var(--ink);
+  padding: var(--section-y) clamp(20px, 4vw, 56px);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(120px, auto);
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+/* ---------- Base tile ---------- */
+.tile {
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  padding: clamp(22px, 2.4vw, 32px);
+  overflow: hidden;
+  isolation: isolate;
+  will-change: transform, opacity;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+/* ---------- Tile 1 — big statement (2 cols wide, 2 rows tall) ---------- */
+.tileStatement {
+  grid-column: span 2;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  background:
+    radial-gradient(60% 40% at 0% 0%, rgba(217, 58, 58, 0.06), transparent 55%),
+    linear-gradient(180deg, var(--paper) 0%, var(--paper-soft) 100%);
+  min-height: 320px;
+}
+.eyebrow { display: inline-flex; align-self: flex-start; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+  white-space: pre-line;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.body {
+  color: var(--ink-70);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 52ch;
+}
+
+/* ---------- Tile 2 — photo (1 col, 2 rows) ---------- */
+.tilePhoto {
+  grid-column: span 1;
+  grid-row: span 2;
+  padding: 0;
+  min-height: 320px;
+  background: #16171c;
+}
+.photoImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(22, 20, 16, 0) 40%, rgba(22, 20, 16, 0.75) 100%);
+}
+.photoTag {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  right: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(253, 251, 246, 0.94);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.35);
+  width: fit-content;
+}
+.photoTagDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 0 4px rgba(217, 58, 58, 0.20);
+}
+
+/* ---------- Tile 3 — years / since card ---------- */
+.tileSince {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  border-color: transparent;
+  min-height: 180px;
+}
+.sinceValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.sinceLabel {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 22ch;
+}
+.sinceArrow {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 24px;
+  height: 24px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Tile 4 — promise quote (2 cols wide) ---------- */
+.tilePromise {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-height: 180px;
+  background:
+    linear-gradient(135deg, var(--paper) 0%, var(--paper-mute) 100%);
+}
+.promiseMark {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-size: 4rem;
+  line-height: 0.5;
+  color: var(--crimson);
+  margin-bottom: -12px;
+  user-select: none;
+}
+.promiseText {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 40ch;
+}
+.promiseAttr {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+
+/* ---------- Tile 5, 6, 7 — value tiles ---------- */
+.tileValue {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 180px;
+}
+.valueIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(217, 58, 58, 0.10);
+  color: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.valueLabel {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.valueBody {
+  color: var(--ink-70);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- Hover lift on all tiles ---------- */
+.tile:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 30px 60px -30px rgba(43, 39, 32, 0.22),
+    0 8px 24px -8px rgba(43, 39, 32, 0.08);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(auto, auto);
+  }
+  .tileStatement { grid-column: span 2; grid-row: span 1; min-height: 260px; }
+  .tilePhoto     { grid-column: span 2; grid-row: span 1; min-height: 240px; }
+  .tilePromise   { grid-column: span 2; }
+}
+
+@media (max-width: 560px) {
+  .inner { grid-template-columns: 1fr; }
+  .tileStatement,
+  .tilePhoto,
+  .tilePromise,
+  .tileSince,
+  .tileValue { grid-column: span 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile { transform: none !important; opacity: 1 !important; }
+}

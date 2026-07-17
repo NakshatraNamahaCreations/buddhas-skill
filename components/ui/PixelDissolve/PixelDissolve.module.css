@@ -1,0 +1,30 @@
+.wrap {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--px-cols, 14), 1fr);
+  grid-template-rows: repeat(var(--px-rows, 14), 1fr);
+  gap: var(--px-gap, 3px);
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: 100%;
+}
+
+.cell {
+  background: transparent;
+  border-radius: 2px;
+  /* transform + opacity only — no layout properties animated */
+  will-change: transform, opacity;
+}
+
+.on {
+  background: var(--crimson);
+  box-shadow: 0 0 10px rgba(234, 2, 3, 0.30);
+}
+.snow {
+  background: var(--snow) !important;
+  box-shadow: none !important;
+}
+.dim {
+  background: var(--crimson-deep) !important;
+  box-shadow: none !important;
+}

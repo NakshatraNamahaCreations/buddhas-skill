@@ -1,0 +1,218 @@
+/* ============================================================
+   PlacedStudents — 3-up stacked carousel. Center tile is
+   featured; one tile peeks on each side (smaller, dimmed,
+   slightly rotated). Auto-advances every 3.5s, pauses on
+   hover/focus. Side tiles are clickable to jump.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: var(--section-y) 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.header {
+  max-width: var(--max-w);
+  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+  padding: 0 clamp(20px, 4vw, 56px);
+  text-align: center;
+}
+
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 auto 14px;
+  max-width: 22ch;
+}
+.title em {
+  font-style: normal;
+  color: var(--crimson);
+}
+
+.lede {
+  color: var(--ink-70);
+  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+  line-height: 1.55;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Carousel — stage + arrow controls
+   ============================================================ */
+.carousel {
+  position: relative;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  height: 480px;
+  perspective: 1200px;
+}
+
+/* ---------- Slide ---------- */
+.slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  height: 450px;
+  /* Center on the stage: negative margins must equal half the tile
+     dimensions. If you resize the tile, update these to match. */
+  margin: -225px 0 0 -225px;
+  padding: 0;
+  border: 1px solid var(--hairline-light);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 24px 48px -28px rgba(43, 39, 32, 0.28),
+    0 6px 16px -8px rgba(43, 39, 32, 0.08);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Center (active) */
+.slide[data-position="0"] {
+  transform: translateX(0) scale(1) rotateY(0);
+  z-index: 3;
+  opacity: 1;
+  cursor: default;
+}
+/* Right peek */
+.slide[data-position="1"] {
+  transform: translateX(70%) scale(0.85) rotateY(-14deg);
+  z-index: 2;
+  opacity: 0.75;
+}
+/* Left peek */
+.slide[data-position="-1"] {
+  transform: translateX(-70%) scale(0.85) rotateY(14deg);
+  z-index: 2;
+  opacity: 0.75;
+}
+
+.slide:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(217, 58, 58, 0.35),
+    0 24px 48px -28px rgba(43, 39, 32, 0.28);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- Arrow controls ---------- */
+.arrow {
+  position: relative;
+  z-index: 5;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-light);
+  background: #fff;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -10px rgba(43, 39, 32, 0.20);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+.arrow svg { width: 22px; height: 22px; stroke-width: 2.1; }
+.arrow:hover {
+  color: #fff;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  border-color: transparent;
+  transform: translateY(-2px);
+}
+.arrow:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(217, 58, 58, 0.30);
+}
+
+/* ---------- Dots ---------- */
+.dots {
+  margin: clamp(24px, 3vw, 36px) auto 0;
+  padding: 0 clamp(20px, 4vw, 56px);
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: var(--hairline-dark, rgba(43, 39, 32, 0.20));
+  padding: 0;
+  cursor: pointer;
+  transition:
+    width var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+.dotActive {
+  width: 26px;
+  background: var(--crimson);
+}
+.dot:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(217, 58, 58, 0.35);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .stage { height: 380px; }
+  .slide { width: 260px; height: 340px; margin: -170px 0 0 -130px; }
+  .slide[data-position="1"]  { transform: translateX(65%) scale(0.82) rotateY(-12deg); }
+  .slide[data-position="-1"] { transform: translateX(-65%) scale(0.82) rotateY(12deg); }
+}
+
+@media (max-width: 640px) {
+  .carousel { gap: 8px; padding: 0 12px; }
+  .stage { height: 340px; }
+  .slide { width: 220px; height: 300px; margin: -150px 0 0 -110px; border-radius: 20px; }
+  .slide[data-position="1"]  { transform: translateX(55%) scale(0.78) rotateY(-10deg); opacity: 0.55; }
+  .slide[data-position="-1"] { transform: translateX(-55%) scale(0.78) rotateY(10deg); opacity: 0.55; }
+  .arrow { width: 40px; height: 40px; }
+  .arrow svg { width: 18px; height: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: opacity 0.2s ease; }
+}

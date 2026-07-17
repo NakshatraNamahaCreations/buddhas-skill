@@ -1,0 +1,254 @@
+.section {
+  position: relative;
+  background:
+    radial-gradient(80% 40% at 50% 0%, rgba(217, 58, 58, 0.05), transparent 60%),
+    var(--paper);
+  color: var(--ink);
+  padding: var(--section-y) clamp(20px, 4vw, 56px);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ---------- Header ---------- */
+.header {
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+}
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 auto 20px;
+  max-width: 20ch;
+}
+.title em { font-style: normal; color: var(--crimson); }
+.lede {
+  color: var(--ink-70);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Ladder — alternating cards, each rung sits on one side.
+   ============================================================ */
+.ladder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(2rem, 6vw, 6rem);
+  row-gap: clamp(2.5rem, 5vw, 4rem);
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+/* Dashed central spine running down the ladder */
+.ladder::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(217, 58, 58, 0.35) 0 8px,
+      transparent 8px 16px
+    );
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Rung — one row of the ladder ---------- */
+.rung {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  z-index: 1;
+}
+.left  { grid-column: 1; justify-content: flex-end; }
+.right { grid-column: 2; justify-content: flex-start; }
+
+/* The last rung centers across both columns for a closing "finish" beat */
+.rung:last-child {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+/* Giant faded numeral behind each rung — different rhythm from other sections */
+.rungNumeral {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(6rem, 14vw, 12rem);
+  line-height: 1;
+  color: rgba(217, 58, 58, 0.06);
+  letter-spacing: -0.06em;
+  pointer-events: none;
+  z-index: 0;
+}
+.left  .rungNumeral { right: -12%; }
+.right .rungNumeral { left: -12%; }
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background: var(--paper);
+  border: 1px solid var(--hairline-light);
+  border-radius: 20px;
+  padding: clamp(22px, 2.5vw, 30px);
+  box-shadow:
+    0 30px 60px -30px rgba(43, 39, 32, 0.20),
+    0 8px 20px -10px rgba(43, 39, 32, 0.08);
+  will-change: transform, opacity;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 40px 70px -30px rgba(43, 39, 32, 0.26),
+    0 10px 24px -10px rgba(43, 39, 32, 0.12);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow:
+    0 8px 18px -8px rgba(217, 58, 58, 0.45),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.10);
+}
+
+/* Step pill "Step 01" — compact and unlike other section badges */
+.stepPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+  background: rgba(217, 58, 58, 0.08);
+}
+.stepPillLabel {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--crimson);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+}
+.stepPillNum {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--crimson);
+  letter-spacing: 0.02em;
+}
+
+.cardTitle {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.cardBody {
+  color: var(--ink-70);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 44ch;
+}
+
+/* Small arrow indicator pointing toward the next rung's side */
+.arrow {
+  position: absolute;
+  bottom: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--hairline-light);
+  color: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 8px 18px -8px rgba(43, 39, 32, 0.18);
+  z-index: 3;
+}
+.left  .card .arrow { right: -18px; transform: rotate(0deg); }
+.right .card .arrow { left: -18px;  transform: rotate(90deg); }
+
+/* ---------- Responsive: collapse to single column ---------- */
+@media (max-width: 900px) {
+  .ladder {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: clamp(1.5rem, 4vw, 2rem);
+  }
+  .ladder::before { left: 24px; transform: none; }
+  .rung,
+  .left,
+  .right {
+    grid-column: 1;
+    justify-content: flex-start;
+    padding-left: 56px;
+  }
+  .rungNumeral { display: none; }
+  .card { max-width: none; }
+  .arrow,
+  .left  .card .arrow,
+  .right .card .arrow {
+    left: -46px;
+    right: auto;
+    bottom: -30px;
+    transform: rotate(45deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transform: none !important; opacity: 1 !important; }
+}

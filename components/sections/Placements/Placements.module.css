@@ -1,0 +1,548 @@
+/* ============================================================
+   Placements — bento layout
+   HERO (flagship stat) + three stacked mid cards on the right,
+   and a full-width crimson banner strip at the bottom for the
+   8+ LPA achievement.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--paper) 0%, var(--paper-soft) 100%);
+  color: var(--ink);
+  padding: clamp(2px, 12vw, 40px) clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Soft crimson bloom behind everything for warmth */
+.aura {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 80%;
+  max-width: 1400px;
+  background: radial-gradient(closest-side, rgba(217, 58, 58, 0.10), transparent 70%);
+  filter: blur(24px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle dotted texture in the far background */
+.dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(43, 39, 32, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ============================================================
+   Header row
+   ============================================================ */
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+}
+
+.headerCopy { max-width: 620px; }
+.eyebrow { display: inline-flex; margin-bottom: 20px; }
+.title {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4.6vw, 3.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.title em {
+  font-style: normal;
+  color: var(--crimson);
+}
+.lede {
+  color: var(--ink-70);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
+  max-width: 56ch;
+  margin: 0;
+}
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--hairline-light);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 10px 24px -14px rgba(43, 39, 32, 0.20);
+}
+.headerBadge svg {
+  width: 16px;
+  height: 16px;
+  color: var(--crimson);
+  stroke-width: 2;
+}
+
+/* ============================================================
+   Bento grid
+   Left column stacks the hero on top of the 8+ LPA banner.
+   Right column holds three stacked mid cards spanning both rows.
+   ============================================================ */
+.bento {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.cell {
+  will-change: transform, opacity;
+}
+
+/* ============================================================
+   HERO card
+   ============================================================ */
+.hero {
+  position: relative;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  padding: clamp(32px, 4vw, 56px);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--hairline-light);
+  border-radius: 32px;
+  box-shadow:
+    0 40px 80px -40px rgba(43, 39, 32, 0.28),
+    0 8px 24px -8px rgba(43, 39, 32, 0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Blooming crimson glow behind the giant number */
+.heroBloom {
+  position: absolute;
+  left: -10%;
+  top: 30%;
+  width: 90%;
+  height: 90%;
+  background: radial-gradient(closest-side, rgba(217, 58, 58, 0.22), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Subtle grid pattern in the hero background for texture */
+.heroGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(43, 39, 32, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 39, 32, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 60%);
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroTag {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(217, 58, 58, 0.10);
+  color: var(--crimson-deep);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+.heroTagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(217, 58, 58, 0.20);
+}
+
+.heroIcon {
+  position: relative;
+  z-index: 1;
+  width: clamp(56px, 6vw, 80px);
+  height: clamp(56px, 6vw, 80px);
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 20px 32px -14px rgba(217, 58, 58, 0.55),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.12),
+    inset 0 2px 0 rgba(255, 255, 255, 0.22);
+}
+.heroIcon svg {
+  width: clamp(26px, 3vw, 38px);
+  height: clamp(26px, 3vw, 38px);
+  stroke-width: 1.6;
+}
+
+.heroValue {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  line-height: 0.85;
+  margin-top: 4px;
+}
+.heroNumber {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.5rem, 8.5vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.heroSuffix {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4vw, 3.25rem);
+  line-height: 1;
+  color: var(--crimson);
+  letter-spacing: -0.02em;
+}
+
+.heroLabel {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.heroBody {
+  position: relative;
+  z-index: 1;
+  color: var(--ink-70);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 42ch;
+  margin: 0;
+}
+
+/* Hero footer — three mini-stats inside the hero card */
+.heroFooter {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--hairline-light);
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+}
+.heroFooterItem { min-width: 0; }
+.heroFooterValue {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--crimson);
+  line-height: 1;
+}
+.heroFooterLabel {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.56rem;
+  font-weight: 600;
+  color: var(--ink-70);
+  margin-top: 4px;
+}
+.heroFooterDivider {
+  width: 1px;
+  height: 26px;
+  background: var(--hairline-light);
+}
+
+/* ============================================================
+   MID column — three stacked cards
+   ============================================================ */
+.midColumn {
+  grid-column: 2 / 3;
+  grid-row: 1 / -1;              /* Stretch across both rows of the parent */
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: clamp(14px, 1.6vw, 20px);
+  min-height: 0;
+}
+
+.midCard {
+  position: relative;
+  padding: clamp(20px, 2vw, 28px);
+  background: #fff;
+  border: 1px solid var(--hairline-light);
+  border-radius: 22px;
+  box-shadow:
+    0 20px 36px -24px rgba(43, 39, 32, 0.22),
+    0 4px 12px -6px rgba(43, 39, 32, 0.06);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  overflow: hidden;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.midCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--crimson) 0%, rgba(217, 58, 58, 0) 100%);
+  border-radius: 0 999px 999px 0;
+  opacity: 0.75;
+}
+.midCard:hover {
+  transform: translateX(-3px);
+  border-color: rgba(217, 58, 58, 0.28);
+  box-shadow:
+    0 30px 48px -24px rgba(43, 39, 32, 0.30),
+    0 10px 20px -8px rgba(43, 39, 32, 0.12);
+}
+
+.midIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 20px -10px rgba(217, 58, 58, 0.45),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+  flex-shrink: 0;
+}
+.midIcon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.midBody { min-width: 0; }
+
+.midValue {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  line-height: 0.95;
+}
+.midNumber {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.midSuffix {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
+  color: var(--crimson);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  align-self: flex-start;
+  margin-top: 0.08em;
+}
+.midLabel {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.midCopy {
+  color: var(--ink-70);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 4px 0 0;
+}
+
+/* ============================================================
+   BANNER row — full-width crimson strip for the 8+ LPA stat
+   ============================================================ */
+.banner {
+  grid-column: 1 / 2;             /* Sits under the hero, left column only */
+  grid-row: 2 / 3;
+  position: relative;
+  padding: clamp(24px, 2.6vw, 36px) clamp(24px, 3vw, 40px);
+  border-radius: 28px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 28px);
+  box-shadow: 0 30px 60px -30px rgba(179, 40, 48, 0.55);
+}
+.bannerBloom {
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 340px;
+  height: 340px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+  pointer-events: none;
+}
+
+.bannerLeft {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.bannerIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bannerIcon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+.bannerLabel {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  letter-spacing: -0.015em;
+}
+.bannerBody {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 4px 0 0;
+  max-width: 40ch;
+}
+
+.bannerValue {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  line-height: 0.85;
+}
+.bannerNumber {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.bannerSuffix {
+  font-family: var(--font-display), 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1023px) {
+  .header {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 20px;
+  }
+  .headerBadge { align-self: flex-start; }
+
+  .bento { grid-template-columns: 1fr; }
+  .hero  { grid-column: 1 / -1; grid-row: auto; }
+  .midColumn { grid-column: 1 / -1; grid-row: auto; grid-template-rows: none; grid-template-columns: 1fr 1fr; }
+  .banner { grid-column: 1 / -1; grid-row: auto; }
+}
+
+@media (max-width: 720px) {
+  .midColumn { grid-template-columns: 1fr; }
+  .banner { grid-template-columns: 1fr; text-align: left; }
+  .bannerValue { justify-self: start; }
+}
+
+@media (max-width: 520px) {
+  .hero { border-radius: 24px; padding: 28px; }
+  .midCard { border-radius: 18px; padding: 20px; }
+  .banner { border-radius: 22px; padding: 24px; }
+  .heroFooter { gap: 14px; }
+  .heroFooterDivider { height: 24px; }
+  .heroFooterValue { font-size: 1.15rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,56 @@
+.button {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: clamp(85px, 3vh, 32px);
+  z-index: 60;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 28px -12px rgba(179, 40, 48, 0.55),
+    0 4px 12px -4px rgba(43, 39, 32, 0.20);
+
+  opacity: 0;
+  transform: translateY(12px) scale(0.92);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.button svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2.2;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.button:hover {
+  transform: translateY(-3px) scale(1);
+  box-shadow:
+    0 22px 36px -14px rgba(179, 40, 48, 0.65),
+    0 6px 16px -4px rgba(43, 39, 32, 0.25);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(217, 58, 58, 0.30),
+    0 14px 28px -12px rgba(179, 40, 48, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}

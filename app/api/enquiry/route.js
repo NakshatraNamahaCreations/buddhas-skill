@@ -13,17 +13,12 @@ import nodemailer from 'nodemailer';
 
 export const runtime = 'nodejs';
 
-// -----------------------------------------------------------------------
-// CORS — only these origins can POST from a browser. Never use '*' here,
-// this endpoint sends real email. Add / remove entries as your site URLs
-// change. Same-origin requests do not need to be in this list.
-// -----------------------------------------------------------------------
-const ALLOWED_ORIGINS = [
-  'https://YOUR-DOMAIN.com',   // <-- REPLACE with the production site origin
-  'http://localhost:3000',
-  'http://localhost:3002',
-  'https://buddha-skills.netlify.app/'
-];
+// CORS — comma-separated list of origins in ALLOWED_ORIGINS env var.
+// Never use '*' here, this endpoint sends real email.
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(s => s.trim().replace(/\/$/, ''))
+  .filter(Boolean);
 
 function corsHeaders(origin) {
   if (!ALLOWED_ORIGINS.includes(origin)) return {};

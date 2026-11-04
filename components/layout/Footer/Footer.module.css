@@ -155,7 +155,8 @@
   flex-wrap: wrap;
 }
 .copy,
-.credit {
+.credit,
+.legal {
   margin: 0;
   color: var(--snow-40);
   font-family: var(--font-mono), 'JetBrains Mono', monospace;
@@ -164,15 +165,20 @@
   font-size: 0.7rem;
 }
 .credit span { color: var(--crimson); }
-.creditLink {
+.creditLink,
+.legalLink {
   color: var(--crimson);
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
   transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
-.creditLink:hover {
+.creditLink:hover,
+.legalLink:hover {
   color: var(--crimson-soft);
   border-bottom-color: var(--crimson);
+}
+.legalLink {
+  color: var(--snow-65);
 }
 
 /* ---------- Responsive ---------- */

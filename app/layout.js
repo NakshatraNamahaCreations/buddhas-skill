@@ -29,6 +29,11 @@ export const metadata = {
   title: "Buddha's Skill Academy | Job-Ready Tech Training & Placements",
   description:
     "Industry-ready training in code, data, and security — built on live projects, real mentorship, and placement support that doesn't quit.",
+  icons: {
+    icon: '/images/buddha-logo.jpeg',
+    shortcut: '/images/buddha-logo.jpeg',
+    apple: '/images/buddha-logo.jpeg',
+  },
   openGraph: {
     title: "Buddha's Skill Academy | Skills That Matter",
     description:

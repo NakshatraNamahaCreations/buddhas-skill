@@ -106,6 +106,9 @@ export default function Footer() {
 
       <div className={styles.baseline}>
         <p className={styles.copy}>© {year} {brand.name}. All rights reserved.</p>
+        <p className={styles.legal}>
+          <a href="/privacy-policy" className={styles.legalLink}>Privacy Policy</a>
+        </p>
         <p className={styles.credit}>
           Developed by{' '}
           <a
